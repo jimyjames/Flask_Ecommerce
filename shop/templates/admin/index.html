@@ -1,3 +1,7 @@
 {% extends 'layout.html'%}
-{% block content %} {% include '_messages.html' %}We are in the Admin page  {%
+{% block content %} {% include '_messages.html' %}We are in the Admin page  
+
+
+
+<a href="{{ url_for('admin.logout' ) }}">Logout</a>{%
 endblock %}

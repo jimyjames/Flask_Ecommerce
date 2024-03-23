@@ -35,10 +35,14 @@ class User(UserMixin, db.Model):
             data = jwt.decode(
                 token,
                 current_app.config['SECRET_KEY'],
-                exp=datetime.timedelta(seconds=10),
+                
                 algorithms=["HS256"]
             )
-        except:
+        except jwt.ExpiredSignatureError:
+            # Token has expired
+            return False
+        except jwt.InvalidTokenError:
+            # Token is invalid
             return False
         if data.get('confirm') != self.id:
             return False
