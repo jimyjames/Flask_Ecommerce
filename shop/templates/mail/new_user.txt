@@ -1,0 +1,10 @@
+Dear Admin,
+
+A new user has registered on the website.
+
+User Information:
+Name: {{ user.name }}
+Email: {{ user.email }}
+
+Thank you,
+Your Website Team

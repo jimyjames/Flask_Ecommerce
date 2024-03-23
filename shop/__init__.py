@@ -1,19 +1,36 @@
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_mail import Mail
+from flask_login import LoginManager
+from config import config
+from flask_migrate import Migrate
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///myshop.db'
-app.config['SECRET_KEY'] = 'ecommerce1234'
+app.config.from_object(config['development'])
 
-from shop.models import db
-db.init_app(app)
+db = SQLAlchemy()
+mail = Mail()
+login_manager = LoginManager()
+login_manager.login_view="admin.login"
 
-from shop.admin import routes as main
+def create_app(config_name):
+    app=Flask(__name__)
+    app.config.from_object(config[config_name])
+    config[config_name].init_app(app)
+    mail.init_app(app)
+    db.init_app(app)
+    migrate=Migrate(app,db)
+   
+    login_manager.init_app(app)
 
-from shop.models import User  # Assuming User is your model
+    
+   
+    from .admin import admin as admin_blueprint
+    app.register_blueprint(admin_blueprint)
+    
 
-# Import your routes here
-from shop.admin import routes
 
-# Create all database tables
-with app.app_context():
-    db.create_all()
+    return app
+
+
+
