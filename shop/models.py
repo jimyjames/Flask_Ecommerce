@@ -31,17 +31,20 @@ class User(UserMixin, db.Model):
         return confirmation_token
 
     def confirm(self, token):
+        print("here we go ")
         try:
             data = jwt.decode(
                 token,
                 current_app.config['SECRET_KEY'],
+
                 
                 algorithms=["HS256"]
             )
         except jwt.ExpiredSignatureError:
             # Token has expired
-            return False
+            return (False,"Your token has expired")
         except jwt.InvalidTokenError:
+            print("Your Token is invalid ")
             # Token is invalid
             return False
         if data.get('confirm') != self.id:
@@ -53,3 +56,21 @@ from . import login_manager
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+class Product(db.Model):
+    __tablename__="products"
+    id=db.Column(db.Integer,primary_key=True)
+    # merchant_id=db.Column(db.Integer)  
+    name=db.Column(db.String(30),nullable=False)
+    category=db.Column(db.Integer,nullable=False)
+    description=db.Column(db.String(),nullable=False)
+    price=db.Column(db.Integer,nullable=False)
+    detail=db.relationship('ProductDescription',backref='details',lazy='dynamic',cascade='all, delete-orphan')
+
+
+class ProductDescription(db.Model):
+    __tablename__="product_description"
+    id=db.Column(db.Integer,primary_key=True)
+    product_id=db.Column(db.Integer,db.ForeignKey('products.id'))
+    title=db.Column(db.String(20),nullable=False)
+    description=db.Column(db.String,nullable=False)

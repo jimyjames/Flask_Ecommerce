@@ -1,12 +1,15 @@
 from flask import render_template,session,request,redirect,url_for,flash,current_app,jsonify,make_response
 from shop import db,models
+from flask_pydantic import validate
 
 from flask_login import LoginManager, current_user, login_required,login_user, logout_user
-from shop.models import User
+from shop.models import User,Product,ProductDescription
 from shop.decorators import token_required
 from .forms import RegistrationForm,LoginForm
 from shop.mail import send_email,tokenizationsession,tokenizationconfirmation
 from flask_httpauth import HTTPTokenAuth
+from ..schemas import Productin,Productout,ProductDescriptionin,Productdescriptionout
+from typing import List
 
 import jwt
 import datetime
@@ -37,6 +40,7 @@ def indexpage():
     if 'email' not in session:
         flash(f"please login first", "danger")
         return redirect(url_for('admin.login'))
+    print(session)
     # products=Addproduct.query.all()
     return render_template('admin/index.html',title="Admin Page")
 
@@ -86,12 +90,10 @@ def login():
             session['name']=name
             flash(f"Welcome Back {name}.Successful Login")
             email=form.email.data
-            # token1=jwt.encode({'user':name,'exp':datetime.datetime.utcnow()+datetime.timedelta(minutes=30)},current_app.config['SECRET_KEY '])
+        
           
             token=tokenizationsession(name)
-            # send_email(current_app.config['FLASKY_ADMIN'], ' New User','mail/new_user', user=user)
-            flash(token)
-            # tip=token1.decode('UTF-8')
+           
             print(f"?token={token}")
          
         
@@ -104,13 +106,17 @@ def login():
 @admin.route('/confirm/<token>')
 @login_required
 def confirm(token):
+    print(current_user.confirm(token))
+    
+    
    
-    if current_user.confirm(token):
+    if current_user.confirmed:
+        return redirect(url_for('admin.indexpage',token=token,_external=True))
+    elif current_user.confirm(token):
+        
       
         db.session.commit()
         flash('You have confirmed your account. Thanks!')
-    if current_user.confirmed:
-        return redirect(url_for('admin.indexpage'))
     else:
         flash('The confirmation link is invalid or has expired.')
     return redirect(url_for('admin.indexpage'))
@@ -120,4 +126,96 @@ def logout():
     logout_user()
     flash('You have been logged out.', 'success')
     return redirect(url_for('admin.login'))  # 
+
+
+@admin.route('/products',methods=['POST'])
+@validate()
+def addproduct(body:Productin):
+    if request.method=='POST':
+        new_product = Product(
+            category=body.category,
+            name=body.name,
+            description=body.description,
+            price=body.price
+        )
+        db.session.add(new_product)
+        db.session.commit()
+        id=new_product.id
+        for detail in body.detail:
+             new_productdesc = ProductDescription(product_id=id, title=detail.title, description=detail.description)
+             db.session.add(new_productdesc)
+        db.session.commit()
+        response=Productout.from_orm(new_product)
+        return response.dict()
+
+@admin.route('/products/<int:id>')
+def view_product(id: int):
+    if request.method =="GET":
+        product = Product.query.get_or_404(id)
+
+        response = Productout.from_orm(product)
+        return response.dict()
+@admin.route('/products')
+def view_product_all():
+    if request.method=='GET':
+        product = Product.query.all()
+
+        response_list = []
+        for prod in product:
+            response_list.append(Productout.from_orm(prod).dict())
+
+        return response_list
+
+@admin.route('/products/detail',methods=['POST','GET'])
+@validate()
+def addproductdetail(body:ProductDescriptionin):
+    new=ProductDescription(**body.dict())
+    db.session.add(new)
+    db.session.commit()
+    response=Productdescriptionout.from_orm(new)
+    return response.dict()
+
+
+
+@admin.route('/products/<int:id>', methods=['PUT'])
+@validate()
+def edit_product(id: int, body: Productin):
+    if request.method == 'PUT':
+        product = Product.query.get_or_404(id)
+        product.name = body.name
+        product.category = body.category
+        product.description = body.description
+        product.price = body.price
+        for detail in body.detail:
+            productdesc = ProductDescription.query.filter_by(product_id=id, title=detail.title).first()
+            if productdesc:
+              
+                productdesc.title = detail.title
+                productdesc.description = detail.description
+            else:
+               
+                new_productdesc = ProductDescription(product_id=id, title=detail.title, description=detail.description)
+                db.session.add(new_productdesc)
+        
+        
+        db.session.commit()
+        response = Productout.from_orm(product)
+        return response.dict()
+
+@admin.route('/products/<int:id>', methods=['DELETE'])
+def delete_product(id: int):
+    if request.method == 'DELETE':
+        product = Product.query.get_or_404(id)
+        db.session.delete(product)
+        db.session.commit()
+        return {'message': f'Product {product} deleted successfully'}
+
+# GET method to retrieve all products
+
+
+
+
+   
+
+
 
