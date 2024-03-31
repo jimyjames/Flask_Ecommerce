@@ -48,7 +48,7 @@ class User(UserMixin, db.Model):
             'iat':datetime.utcnow(),
             'sub': self.id
         }
-        return jwt.encode(payload,current_app.config['SECRET_KEY'],algorithms='HS256')
+        return jwt.encode(payload,current_app.config['SECRET_KEY'])
     def verify_token(token,secret_key):
         try:
             return jwt.decode(token,secret_key,algorithms='HS256')

@@ -18,6 +18,7 @@ from pydantic import ValidationError
 
 import os
 from . import admin
+from .authentication import basic_auth
 
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -297,10 +298,8 @@ def addOrders(body:Orderin):
         return response.dict()
     
 
-
-
-
 @admin.route("/testlogin", methods=['POST'])
+@basic_auth.login_required
 def testlogin():
     if request.method == 'POST':
         try:
@@ -309,7 +308,7 @@ def testlogin():
             print(body.email, body.password)
             valid_user = User.query.filter(User.email == email).first()
             if valid_user and check_password_hash(valid_user.password, body.password):
-                User.generate_auth_token()
+                token=valid_user.generate_auth_token()
                 return jsonify({"token": token})
             else:
                 return jsonify({"message": "Invalid email or password"}), 401
@@ -317,7 +316,7 @@ def testlogin():
             return jsonify({"message": "Invalid request body", "errors": e.errors()}), 400
     return jsonify({"message": "Invalid method"}), 405
 @admin.route("/testerroute")
-@token_required
+@auth.login_required
 def testerroute():
     return("hey there I' m in ")
 

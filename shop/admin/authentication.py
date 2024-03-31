@@ -1,14 +1,18 @@
-from flask_httpauth import HTTPTokenAuth
-from .errors import unauthorized
+from flask_httpauth import HTTPTokenAuth, HTTPBasicAuth
+from .errors import *
 from ..models import User
 from flask_login import current_user
-from .errors import forbidden
-from flask import current_app
+
+from flask import current_app,jsonify
+from werkzeug.security import check_password_hash
 
 
-auth = HTTPTokenAuth(scheme='Bearer')
+auth = HTTPTokenAuth()
 
-@auth.verify_password
+basic_auth = HTTPBasicAuth()
+
+
+@auth.verify_token
 def verify_token(token):
     
     verify_token = User.Verify_token(token, current_app.config.get("SECRET_KEY"))
@@ -20,12 +24,26 @@ def verify_token(token):
     return User.query.filter_by(id=verify_token['sub'])
 
 
-@auth.error_handler
-def auth_error():
-    return unauthorized('Invalid credentials')
+# @auth.error_handler
+# def auth_error():
+#     return unauthorized('Invalid credentials')
 
-@auth.verify_token
-def verify_token(token):
-    # Your token verification logic here
-    return True  # Replace with your actual verification logic
-# 
+
+@basic_auth.verify_password
+def verify_password(email,password):
+    user = User.query.filter_by(email = email).first()
+
+    if not user or  not check_password_hash(user.password, password):
+
+        return None
+    
+    return user
+def basic_auth_error(status):
+
+    return jsonify({'message': 'Invalid credentials'}), status
+
+
+@auth.error_handler
+def token_auth_error(status):
+
+    return jsonify({'message': 'Unauthorized'}), status
