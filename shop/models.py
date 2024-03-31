@@ -1,8 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
-from . import db
+from . import db,login_manager
 import jwt
-import datetime
+from datetime import timedelta,datetime,timezone
 from flask import current_app
 
 
@@ -17,19 +17,43 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(255), nullable=False)
     profile = db.Column(db.String(80), unique=False, nullable=False, default='profile.jpg')
     confirmed = db.Column(db.Boolean, default=False)
+    phone=db.Column(db.Integer)
+    county=db.Column(db.String(20))
+    town=db.Column(db.String(15))
+    dob=db.Column(db.Date)
+    gender=db.Column(db.String(7))
+    created_at=db.Column(db.Date,default=(datetime.utcnow()))
+    companyname=db.Column(db.String(30))
+    address=db.Column(db.String)
+    orders=db.relationship('Order',backref='user_order',lazy='dynamic')
+
+
+
 
     def __repr__(self):
         return f'User("{self.id}","{self.name}","{self.username}","{self.email}")'
     def generate_confirmation_token(self, expiration=3600):
         confirmation_token = jwt.encode({
             "confirm": self.id,
-            "exp": datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(seconds=expiration)
+            "exp": datetime.now(tz=timezone.utc) + timedelta(seconds=expiration)
         },
         current_app.config['SECRET_KEY'],
         algorithm="HS256"
         )
         return confirmation_token
 
+    def generate_auth_token(self,timeline=9000):
+        payload={
+            'exp':datetime.utcnow()+timedelta(seconds=timeline),
+            'iat':datetime.utcnow(),
+            'sub': self.id
+        }
+        return jwt.encode(payload,current_app.config['SECRET_KEY'],algorithms='HS256')
+    def verify_token(token,secret_key):
+        try:
+            return jwt.decode(token,secret_key,algorithms='HS256')
+        except:
+            return None
     def confirm(self, token):
         print("here we go ")
         try:
@@ -52,7 +76,7 @@ class User(UserMixin, db.Model):
         self.confirmed = True
         db.session.add(self)
         return True
-from . import login_manager
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -66,7 +90,7 @@ class Product(db.Model):
     description=db.Column(db.String(),nullable=False)
     price=db.Column(db.Integer,nullable=False)
     detail=db.relationship('ProductDescription',backref='details',lazy='dynamic',cascade='all, delete-orphan')
-
+    purchases=db.relationship('Order',backref='purchases',lazy='dynamic')
 
 class ProductDescription(db.Model):
     __tablename__="product_description"
@@ -74,3 +98,13 @@ class ProductDescription(db.Model):
     product_id=db.Column(db.Integer,db.ForeignKey('products.id'))
     title=db.Column(db.String(20),nullable=False)
     description=db.Column(db.String,nullable=False)
+
+
+class Order(db.Model):
+    __tablename__="orders"
+    id=db.Column(db.Integer, primary_key=True)
+    customer=db.Column(db.Integer,db.ForeignKey('user.id'))
+    product_id=db.Column(db.Integer,db.ForeignKey('products.id'))
+    quantity=db.Column(db.Integer)
+    order_date=db.Column(db.Date,default=datetime.now().date())
+    total_price=db.Column(db.Float)

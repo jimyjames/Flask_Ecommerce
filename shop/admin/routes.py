@@ -3,16 +3,18 @@ from shop import db,models
 from flask_pydantic import validate
 
 from flask_login import LoginManager, current_user, login_required,login_user, logout_user
-from shop.models import User,Product,ProductDescription
+from shop.models import User,Product,ProductDescription,Order
 from shop.decorators import token_required
 from .forms import RegistrationForm,LoginForm
 from shop.mail import send_email,tokenizationsession,tokenizationconfirmation
 from flask_httpauth import HTTPTokenAuth
-from ..schemas import Productin,Productout,ProductDescriptionin,Productdescriptionout
+from ..schemas import Productin,Productout,ProductDescriptionin,Productdescriptionout,Userin,Userout,Userdetails,Orderin,Orderout,Testlogin
 from typing import List
 
 import jwt
 import datetime
+from datetime import datetime,timedelta
+from pydantic import ValidationError
 
 import os
 from . import admin
@@ -26,7 +28,7 @@ auth = HTTPTokenAuth(scheme='Bearer')
 def verify_token(token):
     # Your token verification logic here
     return True  # Replace with your actual verification logic
-
+# 
 
 
 
@@ -104,7 +106,6 @@ def login():
             return redirect(url_for('admin.login'))
     return render_template('admin/login.html',title='Login Page',form=form,email=session.get('email'))
 @admin.route('/confirm/<token>')
-@login_required
 def confirm(token):
     print(current_user.confirm(token))
     
@@ -126,6 +127,7 @@ def logout():
     logout_user()
     flash('You have been logged out.', 'success')
     return redirect(url_for('admin.login'))  # 
+
 
 
 @admin.route('/products',methods=['POST'])
@@ -155,7 +157,11 @@ def view_product(id: int):
 
         response = Productout.from_orm(product)
         return response.dict()
+    
+
+
 @admin.route('/products')
+@login_required
 def view_product_all():
     if request.method=='GET':
         product = Product.query.all()
@@ -166,6 +172,7 @@ def view_product_all():
 
         return response_list
 
+
 @admin.route('/products/detail',methods=['POST','GET'])
 @validate()
 def addproductdetail(body:ProductDescriptionin):
@@ -174,7 +181,6 @@ def addproductdetail(body:ProductDescriptionin):
     db.session.commit()
     response=Productdescriptionout.from_orm(new)
     return response.dict()
-
 
 
 @admin.route('/products/<int:id>', methods=['PUT'])
@@ -202,6 +208,7 @@ def edit_product(id: int, body: Productin):
         response = Productout.from_orm(product)
         return response.dict()
 
+
 @admin.route('/products/<int:id>', methods=['DELETE'])
 def delete_product(id: int):
     if request.method == 'DELETE':
@@ -210,8 +217,115 @@ def delete_product(id: int):
         db.session.commit()
         return {'message': f'Product {product} deleted successfully'}
 
-# GET method to retrieve all products
 
+
+@admin.route("/usersignup",methods=['POST'])
+@validate()
+def userSignUp(body:Userin):
+    if request.method=='POST':
+        password=generate_password_hash(body.password)
+        new_user=User(
+            name=body.name,
+            username=body.username,
+            email=body.email,
+            password=password
+        )
+        db.session.add(new_user)
+        db.session.commit()
+        response=Userout.from_orm(new_user)
+        return response.dict()
+    
+
+@admin.route("/adduserdetails",methods=['PUT'])
+@validate()
+def addUserDetails(body:Userdetails):
+    if request.method=="PUT":
+        id=body.id
+        print(id)
+        user=User.query.get_or_404(id)
+            
+        user.phone = body.phone
+        user.county = body.county
+        user.town = body.town
+        user.created=datetime.now().date()
+        user.dob = body.dob
+        user.gender = body.gender
+        user.companyname = body.companyname
+        user.address = body.address
+        print(datetime.now())
+    
+        db.session.add(user)
+        db.session.commit()
+        db.session.refresh(user)
+        response = Userout.from_orm(user)
+        return response.dict()
+    
+
+
+@admin.route("/viewusers",methods=['GET'])
+@validate()
+def viewUsers():
+    if request.method=="GET":
+        users=User.query.all()
+        user_data = [Userout.from_orm(user).dict() for user in users]
+    return jsonify(user_data)
+
+@admin.route("/addorders",methods=['POST'])
+@validate()
+def addOrders(body:Orderin):
+    if request.method=="POST":
+        price_tuple = Product.query.with_entities(Product.price).filter(Product.id == body.product_id).first()
+
+        
+        if price_tuple:
+            price = price_tuple[0]  
+        else:
+            return ("invalid product")
+
+        #
+        total_price = price * body.quantity
+        new_order=Order(
+        customer=body.customer,
+        product_id=body.product_id,
+        quantity=body.quantity,
+        order_date=datetime.now().date(),
+        total_price=total_price
+                 )
+        db.session.add(new_order)
+        db.session.commit()
+        response=Orderout.from_orm(new_order)
+        return response.dict()
+    
+
+
+
+
+@admin.route("/testlogin", methods=['POST'])
+def testlogin():
+    if request.method == 'POST':
+        try:
+            body = Testlogin(**request.json)
+            email = body.email
+            print(body.email, body.password)
+            valid_user = User.query.filter(User.email == email).first()
+            if valid_user and check_password_hash(valid_user.password, body.password):
+                User.generate_auth_token()
+                return jsonify({"token": token})
+            else:
+                return jsonify({"message": "Invalid email or password"}), 401
+        except ValidationError as e:
+            return jsonify({"message": "Invalid request body", "errors": e.errors()}), 400
+    return jsonify({"message": "Invalid method"}), 405
+@admin.route("/testerroute")
+@token_required
+def testerroute():
+    return("hey there I' m in ")
+
+
+
+
+            
+        
 
 
 
