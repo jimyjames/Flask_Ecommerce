@@ -315,6 +315,8 @@ def testlogin():
         except ValidationError as e:
             return jsonify({"message": "Invalid request body", "errors": e.errors()}), 400
     return jsonify({"message": "Invalid method"}), 405
+
+
 @admin.route("/testerroute")
 @auth.login_required
 def testerroute():

@@ -38,6 +38,7 @@ def verify_password(email,password):
         return None
     
     return user
+@basic_auth.error_handler
 def basic_auth_error(status):
 
     return jsonify({'message': 'Invalid credentials'}), status

@@ -1,0 +1,276 @@
+*{
+    font-family: 'inter',sans-serif;
+    /* src: url('https: //fonts.google.com/specimen/Inter'); */
+}
+/* #region top div */
+.pageintro{
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center ;
+    padding-left: 25%;
+    padding-right: 25%;
+    margin-top: 5%;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.8),
+            rgba(0, 0, 0, 0.8)), 
+            url(../automations-powered-by-ics-and-arduinos-image-.jpeg);
+    background-position: 90%;
+    color: white;
+    height: 500px;
+    border: solid 2px blue;
+    width: 60%;
+}
+.nav{
+display: flex;
+flex-direction: row;
+border: solid 5px red;
+justify-content: space-between;
+
+}
+.nav-menu{
+    display: flex;
+    justify-items: auto;
+    flex-direction: row;
+    justify-content: space-between;
+    border: solid 1px greenyellow;
+   
+    
+}
+.companylogo{
+
+    margin-right: 15%;
+    font-size: 17px;
+    width: auto;
+    height: auto;
+    border: solid 1px green;
+    background-color: blueviolet;
+    border-radius: 50%;
+}
+.top-menu-buttons{
+    
+    font-weight: bold;
+    font-size: 115%;
+    margin: 5px;
+}
+.welcome_message{
+    border: 1px solid aqua;
+    margin-top: 10%;
+    margin-right: 0;
+    margin-left: 25%;
+   text-align: right;
+   
+
+
+
+
+}
+.intro-content{
+    border: solid 3px brown;
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+}
+/* #endregion */
+/* #region Products Styles */
+.products{
+    background-color: F6F6F6;
+
+}
+.products-title{
+    align-self: center;
+    justify-self: center;
+    justify-content: center;
+    display: flex;
+    font-weight: bold;
+    font-family: 'inter' sans-serif;
+}
+.product-display{
+    display: flex;
+    justify-items: center;
+    align-self: center;
+}
+.product-image{
+    display: grid;
+    height: 200px;
+    width: 300px;
+    background-color: aqua;
+    margin-top: 10px;
+    background-image: url(../electronicsicscircuits-shop.jpeg);
+    background-size: contain;
+    background-repeat: none;
+    border-radius: 10px;
+
+}
+.product{
+    display: flex;
+    flex-direction:column ;
+    background-color:transparent;
+    border-radius: 5%;
+    width: 350px;
+    height: fit-content;
+    align-items: center;
+    
+}
+.product-name{
+   
+    width: fit-content;
+    align-self: normal;
+    margin-left: 10%;
+    font-size: 22;
+   
+}
+.product-price{
+    
+    align-self: normal;
+    margin-left: 10%;
+    border: none;
+    width: 170px;
+    height: 40px;
+    background-color: C86D59;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    color: white;
+    font-size: large;
+    font-size: 18px;
+
+}
+.products-display{
+    display: grid;
+    grid-template-columns: 400px 400px 400px ; 
+    grid-column-gap:0 ;
+    grid-row-gap:10px ;
+    /* row-gap: 20px; */
+    column-gap: 10px;
+    grid-column-gap: 10px;
+    align-content: center;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+}
+.nav-display{
+align-self: center;
+justify-self: center;
+justify-content: center;
+display: flex;
+font-weight: bold;
+color: 123327;
+font-family: 'inter' sans-serif;
+}
+/* #endregion */
+
+
+/* #region Featured Products styles */
+.featured-title {
+    align-self: center;
+
+    
+    justify-self: center;
+    justify-content: center;
+    display: flex;
+    color: 123327;
+}
+
+.featured-product-image {
+    display: grid;
+    height: 200px;
+    width: 300px;
+    background-color: aqua;
+    margin-top: 20px;
+    /* background-image: url(../automations-powered-by-ics-and-arduinos-image-.jpeg); */
+    background-size: contain;
+    border-radius: 10px;
+    background-repeat: none;
+
+}
+.featured-product {
+    display: flex;
+    flex-direction: column;
+    /* background-color: rgb(192, 194, 197); */
+    border-radius: 5%;
+    width: 350px;
+    height: fit-content;
+    align-items: center;
+    display: flex;
+    justify-items: center;
+    align-self: center;
+    /* border-style: double; */
+    /* border: solid  1px greenyellow; */
+
+}
+.featured-product-name {
+
+    /* border: solid 1px burlywood; */
+    margin: 0;
+    color: 123327;
+    font-size: 22;
+    font-weight: bold;
+   
+
+}
+.featured-product-description{
+    display: flex; 
+    color: A4A4A4;
+    font-size: bold;
+    margin-top: 2%;
+    font-size: 18;
+}
+.featured-product-view {
+    border: none;
+    width: 130px;
+    height: 40px;
+    background-color: C86D59;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    color: white;
+    font-size: large;
+    font-size: 18px;
+
+}
+.featured-products-display {
+    display: grid;
+    grid-template-columns: 400px 400px 400px;
+    grid-column-gap: 0;
+    grid-row-gap: 10px;
+    /* row-gap: 20px; */
+    column-gap: 10px;
+    grid-column-gap: 10px;
+    align-content: center;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+}
+
+.featured-product-detail{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin-left: 20px;
+    margin-top: 5%;
+    justify-content: space-between;
+    
+
+}
+.featured-categories{
+    align-self: center;    
+    /* border: solid 1px gray; */
+    justify-self: center;
+    justify-content: center;
+    display: flex;
+    margin-bottom: 2%;
+}
+.featured-categories button{
+    margin-left: 2%;
+    background-color: transparent;
+    border: 0;
+    font-size:22 ;
+    font-weight: bold;
+    color: 123327;
+}
+/* #endregion */
+
+/* #region recent products */
+.recent-products{
+    background-color: F6F6F6;
+
+}
