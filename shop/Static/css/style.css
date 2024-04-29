@@ -170,7 +170,6 @@ font-family: 'inter' sans-serif;
     display: flex;
     color: 123327;
 }
-
 .featured-product-image {
     display: grid;
     height: 200px;
@@ -273,4 +272,250 @@ font-family: 'inter' sans-serif;
 .recent-products{
     background-color: F6F6F6;
 
+}
+
+
+/* #endregion */
+
+/* #region footer */
+.footer{
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    align-content: center;
+    justify-content: center;
+}
+.footer-details{
+    /* display: flex; */
+    display: grid;
+    justify-self: center;
+    align-self: center;
+    grid-template-columns: 350px 350px 350px;
+}
+.company-details{
+    display: flex;
+    flex-direction: column;
+    
+}
+.company-logo{
+
+    font-size: 17px;
+    width: 100px;
+    height: 100px;
+    border: solid 1px rgb(128, 0, 60);
+    background-color: blueviolet;
+    border-radius: 50%;
+    padding-left: 15%;
+    margin-left: 15%;
+}
+.company-slogan{
+    display: flex;
+    padding: 15%;
+}
+.contact-us{
+    padding-left: 15%;
+}
+.about-company{
+    justify-content:space-between ;
+    display: flex;
+    flex-direction: column;
+    margin-left: 8%;
+    
+}
+/* .about-company h3{
+    align-self: center;
+} */
+.socials{
+
+    
+   display: flex;
+   flex-direction: column;
+   
+   
+}
+.quick-info{
+    
+    display: flex;
+    flex-direction: column;
+    
+}
+.payments-delivery{
+    display: flex;
+    flex-direction: column;
+   
+    
+}
+.other-details{
+    display: flex;
+    flex-direction: column;
+    margin-left:8%;
+}
+.other-details-content{
+    display: flex;
+    flex-direction: column;
+
+}
+.other-details-content p{
+    width: 300px;
+    font-weight: 700;
+
+}
+
+.online-presence-p{
+    
+    display: flex;
+    width: max-content;
+    background: linear-gradient(110deg, #ff105f, #ffad06);
+    color: greenyellow;
+}
+.footer-image{
+    height: 250px;
+    width: 250px;
+    padding: 1%;
+    border-radius: 10%;
+    border-right:solid 2px #ff105f;
+    border-left: solid 2px yellowgreen;
+    border-bottom: solid 2px blue;
+    border-top: solid 2px turquoise;
+}
+.container-instagram{
+    font-size: 1.7em;
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-color: aqua;
+}
+.container{
+   font-size: large;
+   font-weight: bold;
+   margin-top: 3%;
+   
+
+}
+/* #endregion */
+.product_container{
+    
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    font-family: Arial;
+}
+.product-images img{
+    height: 290px;
+    border-radius: 5px;
+    margin: 10px;
+    margin-top: 15px;
+
+}
+.product-general{
+    display: flex;
+    flex-direction: row;
+}
+.product-category{
+   
+    margin-top: 0;
+    padding-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+}
+.product-category-sub{
+    
+    margin-top: 0;
+    padding: 0;
+    margin-bottom: 2px;
+}
+.product-category-sub-sub{
+ 
+    padding: 0;
+    margin-top: 0;
+    margin-bottom: 2px;
+
+}
+.product-display-details{
+    display: flex;
+    flex-direction: column;
+    justify-items: 0;
+    justify-content: 0;
+  
+    margin-left: 10px;
+   
+}
+.product-detail{
+    font-family: Inter;
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 21.06px;
+    letter-spacing: 0em;
+    color: #A4A4A4;
+    margin-top: 0;
+    margin-bottom: 2px;
+    padding-top: 0;
+    width: 272px;
+    height: 106px;
+   
+  
+}
+.product-display-name{
+    font-family: Inter;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 28.08px;
+    letter-spacing: 0em;
+    color: #123327;
+    margin-bottom:2px ;
+    
+}
+.product-display-price{
+   
+    font-family: Inter;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 14.04px;
+    letter-spacing: 0em;
+    color: #FFFFFF; 
+    width: 104px;
+    height: 26px;
+    border-radius: 10px;
+    opacity: 1;
+    background: #C86D59;
+    margin: 10px;
+
+}
+.product-order{
+    
+    border-radius: 10px;
+    opacity: 1;
+    background: #32A47B;
+    font-family: Inter;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 14.04px;
+    letter-spacing: 0em;
+    color: #FFFFFF;
+    width: 157px;
+        height: 34px;
+        
+}
+.product-description-title{
+    font-family: Inter;
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 25.74px;
+    letter-spacing: 0em;
+    color: #123327;
+    margin-left: 5px;
+}
+.product-descriptions-all{
+    font-family: Inter;
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 21.06px;
+    letter-spacing: 0em;
+    color: #A4A4A4;
+   
+
+}
+.product-description{
+    align-self: flex-start;
 }
