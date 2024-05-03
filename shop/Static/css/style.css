@@ -238,6 +238,7 @@ font-family: 'inter' sans-serif;
     justify-content: center;
     justify-items: center;
     align-items: center;
+  
 }
 
 .featured-product-detail{
@@ -322,9 +323,7 @@ font-family: 'inter' sans-serif;
     margin-left: 8%;
     
 }
-/* .about-company h3{
-    align-self: center;
-} */
+
 .socials{
 
     
@@ -393,13 +392,19 @@ font-family: 'inter' sans-serif;
 
 }
 /* #endregion */
+
+/* #region product */
 .product_container{
+    
     
     justify-content: center;
     align-items: center;
     display: flex;
     flex-direction: column;
     font-family: Arial;
+    /* background-color: #bc1888; */
+    border: 3px solid lightgreen;
+    padding: 20px;
 }
 .product-images img{
     height: 290px;
@@ -411,6 +416,7 @@ font-family: 'inter' sans-serif;
 .product-general{
     display: flex;
     flex-direction: row;
+    background-color: #771212;
 }
 .product-category{
    
@@ -518,4 +524,28 @@ font-family: 'inter' sans-serif;
 }
 .product-description{
     align-self: flex-start;
+}
+
+/* #endregion */
+
+.show-more{
+    display: block;
+    background-color: #5c0707;
+    padding: 0;
+  
+    text-align: center;
+}
+.inline-more{
+    display: inline;
+    background-color: #bc1888;
+    border-radius: 30px;
+    text-align: center;
+    height: 80px;
+    width: 20px;
+    align-items: top;
+    justify-content: center;
+    ali
+    
+   
+    
 }

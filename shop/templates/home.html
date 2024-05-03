@@ -15,6 +15,10 @@
 <body class="body-div">
     <!-- top Most Div Starts here  -->
 
+
+    {% block content %}
+        
+  
     <div class="topdiv">
         <div class="pageintro">
             <div class="intro-content">
@@ -108,6 +112,7 @@
         <div class="featured-categories">
             {% for category in categories %}
                 
+           
             <button>
                 {{category.category}}
 
@@ -115,439 +120,41 @@
             </button>
 
             {% endfor %}
-            <div class="featured-products-display">
-
-            {% for product in category_products %}
-                <div class="featured-product">
-                    <img class="featured-product-image"
-                        src="{{ url_for('static', filename='automations-powered-by-ics-and-arduinos-image-.jpeg' ) }}">
-                
-                    <div class="featured-product-detail">
-                
-                        <p class="featured-product-name">
-                
-                
-                            {{product['name']}} {{product['description']}}
-                
-                        </p>
-                        <p class="featured-product-description">
-                            <ul>
-
-                                {% for i in product['detail']  %}
-                                {% if i['title']=='Front Camera' %}
-                                <li>The Phone has a front camera of {{i['description']}} ensuring a clear display</li>
-                                
-                                
-                                {% elif condition2 %}
-                                
-                                {% else %}
-                                
-                                {% endif %}
-                                
-                                {% endfor %}
-                            </ul>
-                            {{product['detail'][0]["title"]}}
-                        </p>
-                        <button class="featured-product-view">
-                
-                            View Item
-                
-                        </button>
-                    </div>
-                </div>
-            {% endfor %}
-            </div>
-            <div class="featured-products-display">
-                <div class="featured-product">
-                    <img class="featured-product-image" src="{{ url_for('static', filename='automations-powered-by-ics-and-arduinos-image-.jpeg' ) }}">
             
-                    <div class="featured-product-detail">
-            
-                        <p class="featured-product-name">
-            
-            
-                            Product Name
-            
-                        </p>
-                        <p class="featured-product-description">
-                            This product contains this and performs that while also having features those
-                        </p>
-                        <button class="featured-product-view">
-            
-                            View Item
-            
-                        </button>
-                    </div>
-                </div>
-                <div class="featured-product">
-                    <img class="featured-product-image" src="{{ url_for('static', filename='automations-powered-by-ics-and-arduinos-image-.jpeg' ) }}">
-            
-                    <div class="featured-product-detail">
-            
-                        <p class="featured-product-name">
-            
-            
-                            Product Name
-            
-                        </p>
-                        <p class="featured-product-description">
-                            This product contains this and performs that while also having features those
-                        </p>
-                        <button class="featured-product-view">
-            
-                            View Item
-            
-                        </button>
-                    </div>
-                </div>
-                <div class="featured-product">
-                    <img class="featured-product-image" src="{{ url_for('static', filename='automations-powered-by-ics-and-arduinos-image-.jpeg' ) }}">
-            
-                    <div class="featured-product-detail">
-            
-                        <p class="featured-product-name">
-            
-            
-                            Product Name
-            
-                        </p>
-                        <p class="featured-product-description">
-                            This product contains this and performs that while also having features those
-                        </p>
-                        <button class="featured-product-view">
-            
-                            View Item
-            
-                        </button>
-                    </div>
-                </div>
-                <div class="featured-product">
-                    <img class="featured-product-image" src="{{ url_for('static', filename='automations-powered-by-ics-and-arduinos-image-.jpeg' ) }}">
-            
-                    <div class="featured-product-detail">
-            
-                        <p class="featured-product-name">
-            
-            
-                            Product Name
-            
-                        </p>
-                        <p class="featured-product-description">
-                            This product contains this and performs that while also having features those
-                        </p>
-                        <button class="featured-product-view">
-            
-                            View Item
-            
-                        </button>
-                    </div>
-                </div>
-                <div class="featured-product">
-                    <img class="featured-product-image" src="{{ url_for('static', filename='automations-powered-by-ics-and-arduinos-image-.jpeg' ) }}">
-            
-                    <div class="featured-product-detail">
-            
-                        <p class="featured-product-name">
-            
-            
-                            Product Name
-            
-                        </p>
-                        <p class="featured-product-description">
-                            This product contains this and performs that while also having features those
-                        </p>
-                        <button class="featured-product-view">
-            
-                            View Item
-            
-                        </button>
-                    </div>
-                </div>
-                <div class="featured-product">
-                    <img class="featured-product-image" src="{{ url_for('static', filename='automations-powered-by-ics-and-arduinos-image-.jpeg' ) }}">
-            
-                    <div class="featured-product-detail">
-            
-                        <p class="featured-product-name">
-            
-            
-                            Product Name
-            
-                        </p>
-                        <p class="featured-product-description">
-                            This product contains this and performs that while also having features those
-                        </p>
-                        <button class="featured-product-view">
-            
-                            View Item
-            
-                        </button>
-                    </div>
-                </div>
-                <div class="featured-product">
-                    <img class="featured-product-image" src="{{ url_for('static', filename='automations-powered-by-ics-and-arduinos-image-.jpeg' ) }}">
-            
-                    <div class="featured-product-detail">
-            
-                        <p class="featured-product-name">
-            
-            
-                            Product Name
-            
-                        </p>
-                        <p class="featured-product-description">
-                            This product contains this and performs that while also having features those
-                        </p>
-                        <button class="featured-product-view">
-            
-                            View Item
-            
-                        </button>
-                    </div>
-                </div>
-                <div class="featured-product">
-                    <img class="featured-product-image" src="../Static/automations-powered-by-ics-and-arduinos-image-.jpeg">
-            
-                    <div class="featured-product-detail">
-            
-                        <p class="featured-product-name">
-            
-            
-                            Product Name
-            
-                        </p>
-                        <p class="featured-product-description">
-                            This product contains this and performs that while also having features those
-                        </p>
-                        <button class="featured-product-view">
-            
-                            View Item
-            
-                        </button>
-                    </div>
-                </div>
-                <div class="featured-product">
-                    <img class="featured-product-image" src="../Static/automations-powered-by-ics-and-arduinos-image-.jpeg">
-            
-                    <div class="featured-product-detail">
-            
-                        <p class="featured-product-name">
-            
-            
-                            Product Name
-            
-                        </p>
-                        <p class="featured-product-description">
-                            This product contains this and performs that while also having features those
-                        </p>
-                        <button class="featured-product-view">
-            
-                            View Item
-            
-                        </button>
-                    </div>
-                </div>
-            
-            
-            </div>
-
-          
-           
+        
 
         </div>
+
         <div class="featured-products-display">
-            <div class="featured-product">
-                <img class="featured-product-image" src="../Static/automations-powered-by-ics-and-arduinos-image-.jpeg">
-
-                <div class="featured-product-detail">
-
-                    <p class="featured-product-name">
-
-
-                        Product Name
-
-                    </p>
-                    <p class="featured-product-description">
-                        This product contains this and performs that while also having features those
-                    </p>
-                    <button class="featured-product-view">
-
-                        View Item
-
-                    </button>
-                </div>
-            </div>
-            <div class="featured-product">
-                <img class="featured-product-image" src="../Static/automations-powered-by-ics-and-arduinos-image-.jpeg">
-
-                <div class="featured-product-detail">
-
-                    <p class="featured-product-name">
-
-
-                        Product Name
-
-                    </p>
-                    <p class="featured-product-description">
-                        This product contains this and performs that while also having features those
-                    </p>
-                    <button class="featured-product-view">
-
-                        View Item
-
-                    </button>
-                </div>
-            </div>
-            <div class="featured-product">
-                <img class="featured-product-image" src="../Static/automations-powered-by-ics-and-arduinos-image-.jpeg">
-
-                <div class="featured-product-detail">
-
-                    <p class="featured-product-name">
-
-
-                        Product Name
-
-                    </p>
-                    <p class="featured-product-description">
-                        This product contains this and performs that while also having features those
-                    </p>
-                    <button class="featured-product-view">
-
-                        View Item
-
-                    </button>
-                </div>
-            </div>
-            <div class="featured-product">
-                <img class="featured-product-image" src="../Static/automations-powered-by-ics-and-arduinos-image-.jpeg">
-
-                <div class="featured-product-detail">
-
-                    <p class="featured-product-name">
-
-
-                        Product Name
-
-                    </p>
-                    <p class="featured-product-description">
-                        This product contains this and performs that while also having features those
-                    </p>
-                    <button class="featured-product-view">
-
-                        View Item
-
-                    </button>
-                </div>
-            </div>
-            <div class="featured-product">
-                <img class="featured-product-image" src="../Static/automations-powered-by-ics-and-arduinos-image-.jpeg">
-
-                <div class="featured-product-detail">
-
-                    <p class="featured-product-name">
-
-
-                        Product Name
-
-                    </p>
-                    <p class="featured-product-description">
-                        This product contains this and performs that while also having features those
-                    </p>
-                    <button class="featured-product-view">
-
-                        View Item
-
-                    </button>
-                </div>
-            </div>
-            <div class="featured-product">
-                <img class="featured-product-image" src="../Static/automations-powered-by-ics-and-arduinos-image-.jpeg">
-
-                <div class="featured-product-detail">
-
-                    <p class="featured-product-name">
-
-
-                        Product Name
-
-                    </p>
-                    <p class="featured-product-description">
-                        This product contains this and performs that while also having features those
-                    </p>
-                    <button class="featured-product-view">
-
-                        View Item
-
-                    </button>
-                </div>
-            </div>
-            <div class="featured-product">
-                <img class="featured-product-image" src="../Static/automations-powered-by-ics-and-arduinos-image-.jpeg">
-
-                <div class="featured-product-detail">
-
-                    <p class="featured-product-name">
-
-
-                        Product Name
-
-                    </p>
-                    <p class="featured-product-description">
-                        This product contains this and performs that while also having features those
-                    </p>
-                    <button class="featured-product-view">
-
-                        View Item
-
-                    </button>
-                </div>
-            </div>
-            <div class="featured-product">
-                <img class="featured-product-image" src="../Static/automations-powered-by-ics-and-arduinos-image-.jpeg">
-
-                <div class="featured-product-detail">
-
-                    <p class="featured-product-name">
-
-
-                        Product Name
-
-                    </p>
-                    <p class="featured-product-description">
-                        This product contains this and performs that while also having features those
-                    </p>
-                    <button class="featured-product-view">
-
-                        View Item
-
-                    </button>
-                </div>
-            </div>
-            <div class="featured-product">
-                <img class="featured-product-image" src="../Static/automations-powered-by-ics-and-arduinos-image-.jpeg">
-
-                <div class="featured-product-detail">
-
-                    <p class="featured-product-name">
-
-
-                        Product Name
-
-                    </p>
-                    <p class="featured-product-description">
-                        This product contains this and performs that while also having features those
-                    </p>
-                    <button class="featured-product-view">
-
-                        View Item
-
-                    </button>
-                </div>
-            </div>
-
-
+            {% set default = categories[0].category %}
+            {% for product in category_products[0][default] %}
+                
+                <div class="featured-product">
+                    <img class="featured-product-image" src="{{ url_for('static', filename='electronicsicscircuits-shop.jpeg' ) }}>
+                
+                    <div class="featured-product-detail">
+                
+                        <p class="featured-product-name">
+                
+                
+                            {{product['name']}}
+                
+                        </p>
+                        <p class="featured-product-description">
+                            This product contains this and performs that while also having features those
+                        </p>
+                        <button class="featured-product-view">
+                
+                            View Item
+                
+                        </button>
+                    </div>
+                
+                
+            {% endfor %}
+            
         </div>
+       
     </div>
 
 
@@ -687,7 +294,7 @@
 
     </div>
 
-
+        {% endblock %}
 
 
     <div class="footer">

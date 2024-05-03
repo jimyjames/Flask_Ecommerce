@@ -8,8 +8,10 @@ from flask import (
     current_app,
     jsonify,
     make_response,
+    send_from_directory,
 )
-from shop import db, models
+
+from shop import db, photos
 from flask_pydantic import validate
 
 from flask_login import (
@@ -21,7 +23,7 @@ from flask_login import (
 )
 from shop.models import User, Product, ProductDescription, Order
 from shop.decorators import token_required
-from .forms import RegistrationForm, LoginForm
+from .forms import RegistrationForm, LoginForm, UploadForm
 from shop.mail import send_email, tokenizationsession, tokenizationconfirmation
 from flask_httpauth import HTTPTokenAuth
 from ..schemas import (
@@ -382,32 +384,74 @@ from ..models import Product
 @admin.route("/home", methods=["GET"])
 @auth.login_required
 def home():
-    product = Product.query.all()
-    product_list = []
-    for prod in product:
-        product_list.append(Productout.from_orm(prod).dict())
-    category = db.session.query(
-        Product.category.label("category"),
-    ).distinct()
+    products = Product.query.all()
+    products_list = []
+    for prod in products:
+        products_list.append(Productout.from_orm(prod).dict())
+    # category = db.session.query(
+    #     Product.category.label("category"),
+    # ).distinct()
     # print(product_list, category)
     categories = db.session.query(
         Product.category.label("category"),
     ).distinct()
+    categorical_products = []
     for category in categories:
         category_product = Product.query.filter(
             Product.category == category.category
         ).all()
+        # print("category :", category.category)
         category_product_list = []
         for prod in category_product:
             category_product_list.append(Productout.from_orm(prod).dict())
 
-        print("category list", category_product_list)
-        for category in category_product_list:
-            print(category["description"])
+        # print("category list", category_product_list)
+        for product_category in category_product_list:
+            print(product_category["description"])
+        # print(category)
+        categorical_products.append({f"{category.category}": category_product_list})
+    print(categorical_products[0])
+    print(categories[1].category)
+    # for product in categorical_products[0]["Phone"]:
+    #     print(product["name"])
+
+    recent = Product.query.order_by(Product.creation_date).all()
+    recent_product_list = []
+    for prod in recent:
+        recent_product_list.append(Productout.from_orm(prod).dict())
+    print(recent_product_list)
 
     return render_template(
         "home.html",
-        products=product_list,
+        products=products_list,
         categories=categories,
-        category_products=category_product_list,
+        category_products=categorical_products,
+        recent_products=recent,
     )
+
+
+@admin.route("/viewproduct", methods=["GET"])
+def viewproduct():
+    product = Product.query.filter(Product.id == 5).all()
+    product_list = []
+    for prod in product:
+        product_list.append(Productout.from_orm(prod).dict())
+    print(product_list[0]["detail"])
+
+    return render_template("view_product.html", product=product_list)
+
+
+@admin.route("/uploads/<filename>")
+def get_file(filename):
+    return send_from_directory(current_app.config["UPLOADED_PHOTOS_DEST"], filename)
+
+
+@admin.route("/uploadimage", methods=["GET", "POST"])
+def uploadimage():
+    form = UploadForm()
+    if form.validate_on_submit():
+        filename = photos.save(form.photo.data)
+        file_url = url_for("get_file", filename=filename)
+    else:
+        file_url = "0761fbda692b4e1fa794cebfe833561c.jpeg"
+    return render_template("image.html", file_url=file_url, form=form)

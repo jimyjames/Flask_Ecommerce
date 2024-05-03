@@ -1,0 +1,109 @@
+
+{% extends 'home.html' %}
+{% block content %}
+<p>This is a caret symbol using hexadecimal code: &#x005E;</p>
+<p>This is a caret symbol using decimal code: &#94;</p>
+<p>This is a downward-pointing caret symbol using hexadecimal code: </p>
+<p>This is a downward-pointing caret symbol using decimal code: </p>
+
+     
+
+{% for item in product %}
+    
+
+<link rel="stylesheet" href="{{ url_for('static', filename='/css/style.css' ) }}">
+
+
+
+<div class="product_container">
+    <div class="product-general">
+        <div class="product-images">
+            <img src="../Static/A55A35.jpg" alt="">
+
+        </div>
+        <div class="product-display-details">
+            <h2 class="product-display-name">
+               {{ item['description']}}   
+            </h2>
+            <p class="product-detail">
+                {{item['summary']}}
+
+            </p>
+            <h2 class="product-category">
+               Category: {{item['category']}}
+
+            </h2>
+            <p class="product-category-sub">
+                {{item['name']}}
+
+            </p>
+            <p class="product-category-sub-sub">
+                rating: {{item['rating']}}
+            </p>
+
+            <button class="product-display-price">
+               {{item['price']}}
+
+            </button>
+            <button class="product-order">
+                Order On whatsapp
+
+            </button>
+
+
+        </div>
+    </div>
+    <div class="show-more">Show More <div class="inline-more"><h1 style="display: inline; align-self: top; justify-self: center;">&#8964;</h1> </div></div>
+    <div class="product-descriptions">
+        <h2 class="product-description-title">Product Description</h2>
+        <ul class="product-descriptions-all">
+            {% for description in item['detail'] %}
+            {% if description['title'] == "Memory " %}
+            <li class="product-description">Includes {{description['description']}} RAM for smooth multitasking and gameplay.</li>
+                
+            {% elif description['title'] == "Processor " %}
+            <li class="product-description">Powered by an {{description['description']}} Processor for fast and efficient performance.</li>
+             
+                    
+            {% elif description['title'] == "Display " %} 
+            <li class="product-description">Boasts a vibrant {{description['description']}} Display for
+                immersive user experiences.</li>
+            {% elif description['title'] == "Battery type " %}
+            <li class="product-description">Contains a  {{description['description']}} battery for
+            uninterrupted optimum performance .</li>
+            {% elif description['title'] == "Ports " %}
+            <li class="product-description">Contains the following ports for peripherals and connections {{description['description']}} .</li>
+            {% elif description['title'] == "Storage" %}
+            <li class="product-description">Features a spacious {{description['description']}} Drive for quick data access and
+                storage.</li>
+
+
+
+                    
+              
+                
+            {% else %}
+              {{description['title']}}
+            {% endif %}
+                
+          
+                
+            {% endfor %}
+
+
+
+
+
+            
+            
+           
+            
+            
+           
+        </ul>
+    </div>
+
+</div>
+
+{% endfor %}
+{% endblock %}
