@@ -11,7 +11,7 @@ from flask import (
     send_from_directory,
 )
 
-from shop import db, photos
+from shop import db
 from flask_pydantic import validate
 
 from flask_login import (
@@ -23,7 +23,7 @@ from flask_login import (
 )
 from shop.models import User, Product, ProductDescription, Order
 from shop.decorators import token_required
-from .forms import RegistrationForm, LoginForm, UploadForm
+from .forms import RegistrationForm, LoginForm
 from shop.mail import send_email, tokenizationsession, tokenizationconfirmation
 from flask_httpauth import HTTPTokenAuth
 from ..schemas import (
@@ -441,17 +441,17 @@ def viewproduct():
     return render_template("view_product.html", product=product_list)
 
 
-@admin.route("/uploads/<filename>")
-def get_file(filename):
-    return send_from_directory(current_app.config["UPLOADED_PHOTOS_DEST"], filename)
+# @admin.route("/uploads/<filename>")
+# def get_file(filename):
+#     return send_from_directory(current_app.config["UPLOADED_PHOTOS_DEST"], filename)
 
 
-@admin.route("/uploadimage", methods=["GET", "POST"])
-def uploadimage():
-    form = UploadForm()
-    if form.validate_on_submit():
-        filename = photos.save(form.photo.data)
-        file_url = url_for("get_file", filename=filename)
-    else:
-        file_url = "0761fbda692b4e1fa794cebfe833561c.jpeg"
-    return render_template("image.html", file_url=file_url, form=form)
+# @admin.route("/uploadimage", methods=["GET", "POST"])
+# def uploadimage():
+#     form = UploadForm()
+#     if form.validate_on_submit():
+#         filename = photos.save(form.photo.data)
+#         file_url = url_for("get_file", filename=filename)
+#     else:
+#         file_url = "0761fbda692b4e1fa794cebfe833561c.jpeg"
+#     return render_template("image.html", file_url=file_url, form=form)

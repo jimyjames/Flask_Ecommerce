@@ -4,7 +4,7 @@ from flask_mail import Mail
 from flask_login import LoginManager
 from config import config
 from flask_migrate import Migrate
-from flask_uploads import UploadSet, IMAGES, configure_uploads
+# from flask_uploads import UploadSet, IMAGES, configure_uploads
 
 app = Flask(__name__)
 app.config.from_object(config["development"])
@@ -13,7 +13,7 @@ db = SQLAlchemy()
 mail = Mail()
 login_manager = LoginManager()
 login_manager.login_view = "admin.login"
-photos = UploadSet("photos", IMAGES)
+# photos = UploadSet("photos", IMAGES)
 
 
 def create_app(config_name):
@@ -25,7 +25,7 @@ def create_app(config_name):
     migrate = Migrate(app, db)
 
     login_manager.init_app(app)
-    configure_uploads = (app, photos)
+    # configure_uploads = (app, photos)
 
     from .admin import admin as admin_blueprint
 

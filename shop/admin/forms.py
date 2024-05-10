@@ -8,7 +8,7 @@ from wtforms import (
     Form,
 )
 from wtforms.validators import DataRequired, Length, Email
-from shop import photos
+# from shop import photos
 from flask_wtf.file import FileAllowed, FileRequired, FileField
 
 
@@ -37,11 +37,11 @@ class LoginForm(Form):
     submit = SubmitField("Log In")
 
 
-class UploadForm(FlaskForm):
-    photo = FileField(
-        validators=[
-            FileAllowed(photos, "Only images are allowed"),
-            FileRequired("File field should not be empty."),
-        ]
-    )
-    upload = SubmitField("Upload")
+# class UploadForm(FlaskForm):
+#     photo = FileField(
+#         validators=[
+#             FileAllowed(photos, "Only images are allowed"),
+#             FileRequired("File field should not be empty."),
+#         ]
+#     )
+#     upload = SubmitField("Upload")
