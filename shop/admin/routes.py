@@ -465,11 +465,11 @@ def allowed_images(filename):
     ALLOWED_IMAGES = ["png", "jpg", "jpeg"]
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_IMAGES
 
-@admin.route('/submit', methods=['GET', 'POST'])
-def submit_form():
+@admin.route('/add_product', methods=['GET', 'POST'])
+def add_product():
     if request.method == 'POST':
-        product_name = request.form.getlist('product_name[]')
-        product_description = request.form.getlist('product_description[]')
+        product_name = request.form.get('product_name[]')
+        product_description = request.form.get('product_description[]')
         product_category = request.form.get('product_category')
         product_price = request.form.get('product_price')
         product_summary = request.form.get('product_summary')
