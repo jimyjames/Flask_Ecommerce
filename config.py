@@ -17,7 +17,7 @@ class Config:
         "SQLALCHEMY_TRACK_MODIFICATIONS"
     ).lower() in ["true", "1", "yes"]
     SQLALCHEMY_DATABASE_URI = os.environ.get("SQLALCHEMY_DATABASE_URI")
-    UPLOADED_PHOTOS_DEST = os.environ.get("UPLOADED_PHOTOS_DEST")
+    IMAGE_UPLOAD = os.environ.get("IMAGE_UPLOAD")
 
     @staticmethod
     def init_app(app):

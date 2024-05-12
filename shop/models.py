@@ -123,7 +123,7 @@ class Order(db.Model):
 
     def __repr__(self):
         return f'Order("{self.id}","{self.customer}","{self.product_id}","{self.quantity}","{self.order_date}","{self.total_price}")'
-class Images(db.Model):
+class ProductImages(db.Model):
     __tablename__ = "images"
     id = db.Column(db.Integer, primary_key=True)
     product_id = db.Column(db.Integer, db.ForeignKey("products.id"))

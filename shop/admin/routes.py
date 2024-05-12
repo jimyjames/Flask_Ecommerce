@@ -21,7 +21,7 @@ from flask_login import (
     login_user,
     logout_user,
 )
-from shop.models import User, Product, ProductDescription, Order
+from shop.models import User, Product, ProductDescription, Order,ProductImages
 from shop.decorators import token_required
 from .forms import RegistrationForm, LoginForm
 from shop.mail import send_email, tokenizationsession, tokenizationconfirmation
@@ -46,10 +46,14 @@ from datetime import datetime, timedelta
 from pydantic import ValidationError
 
 import os
+from PIL import Image
+import uuid
 from . import admin
 from .authentication import basic_auth
 
 from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.utils import secure_filename
+
 
 auth = HTTPTokenAuth(scheme="Bearer")
 
@@ -405,13 +409,13 @@ def home():
         for prod in category_product:
             category_product_list.append(Productout.from_orm(prod).dict())
 
-        # print("category list", category_product_list)
+        print("category list", category_product_list)
         for product_category in category_product_list:
             print(product_category["description"])
-        # print(category)
+        print(category)
         categorical_products.append({f"{category.category}": category_product_list})
     print(categorical_products[0])
-    print(categories[1].category)
+    # print(categories[1].category)
     # for product in categorical_products[0]["Phone"]:
     #     print(product["name"])
 
@@ -478,10 +482,49 @@ def submit_form():
         file=request.form.get('product_file_1')
         print("title:",title,"file:",file)
 
+
+        new_product = Product(
+            category=product_category,
+            name=product_name,
+            description=product_description,
+            price=product_price,
+            summary=product_summary
+        )
+        db.session.add(new_product)
+        db.session.commit()
+        id = new_product.id
+
         for i in range(1, image_count+1):
-            file = request.form.get(f'product_file_{i}')  # Access files using request.files
+            # file = request.form.get(f'product_file_{i}')  # Access files using request.files
             photo=request.files[f'product_file_{i}']
-            product_files.append(file)
+            # Assuming `allowed_images` is a function that checks if the image is allowed
+            if photo and allowed_images(photo.filename):
+                filename = secure_filename(photo.filename)
+                # Split the filename to get the base name and extension
+                basename, extension = os.path.splitext(filename)
+                # Generate a unique identifier for the filename
+                unique_filename = str(uuid.uuid4()) + '_' + basename + extension
+                
+                # Save the original image with the unique filename
+                photo.save(os.path.join(current_app.config['IMAGE_UPLOAD'], unique_filename))
+
+                # Compress the image
+                compressed_filename = basename + '_compressed' + extension
+                compressed_path = os.path.join(current_app.config['IMAGE_UPLOAD'], unique_filename)
+                with Image.open(os.path.join(current_app.config['IMAGE_UPLOAD'], unique_filename)) as img:
+                    # Compress the image using PIL
+                    img.save(compressed_path, optimize=True, quality=70)
+
+                # Get the compressed filename with the original extension
+                file = compressed_filename
+                product_files.append(file)
+                new_image = ProductImages(
+                    product_id=id,
+                    image=file
+
+                )
+                db.session.add(new_image)
+
         
         print("product name", product_name, "product description", product_description, "product category", product_category, "product price", product_price, "product summary", product_summary, "product detail titles", product_detail_titles, "product detail descriptions", product_detail_descriptions, "product files", product_files)
         for i in range(1, detail_count+1):
@@ -489,6 +532,13 @@ def submit_form():
             description = request.form.get(f'product_detail_description[{i}]')
             product_detail_titles.append(title)
             product_detail_descriptions.append(description)
+            new_productdesc = ProductDescription(
+                product_id=id,
+                title=title,
+                description=description
+            )
+            db.session.add(new_productdesc)
+        db.session.commit()
 
         print("product detail titles", product_detail_titles, "product detail descriptions", product_detail_descriptions)
 
