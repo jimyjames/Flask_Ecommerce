@@ -455,3 +455,45 @@ def viewproduct():
 #     else:
 #         file_url = "0761fbda692b4e1fa794cebfe833561c.jpeg"
 #     return render_template("image.html", file_url=file_url, form=form)
+
+
+def allowed_images(filename):
+    ALLOWED_IMAGES = ["png", "jpg", "jpeg"]
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_IMAGES
+
+@admin.route('/submit', methods=['GET', 'POST'])
+def submit_form():
+    if request.method == 'POST':
+        product_name = request.form.getlist('product_name[]')
+        product_description = request.form.getlist('product_description[]')
+        product_category = request.form.get('product_category')
+        product_price = request.form.get('product_price')
+        product_summary = request.form.get('product_summary')
+        product_detail_titles = []
+        product_detail_descriptions = []
+        product_files = []
+        image_count = int(request.form.get('image_counter'))  # Retrieve the count value
+        detail_count = int(request.form.get('detail_counter'))
+        title=request.form.get('product_detail_title_[5]')
+        file=request.form.get('product_file_1')
+        print("title:",title,"file:",file)
+
+        for i in range(1, image_count+1):
+            file = request.form.get(f'product_file_{i}')  # Access files using request.files
+            photo=request.files[f'product_file_{i}']
+            product_files.append(file)
+        
+        print("product name", product_name, "product description", product_description, "product category", product_category, "product price", product_price, "product summary", product_summary, "product detail titles", product_detail_titles, "product detail descriptions", product_detail_descriptions, "product files", product_files)
+        for i in range(1, detail_count+1):
+            title = request.form.get(f'product_detail_title[{i}]')
+            description = request.form.get(f'product_detail_description[{i}]')
+            product_detail_titles.append(title)
+            product_detail_descriptions.append(description)
+
+        print("product detail titles", product_detail_titles, "product detail descriptions", product_detail_descriptions)
+
+        # Process product data and files as needed
+
+        return 'Form submitted successfully'
+
+    return render_template('add_product.html')

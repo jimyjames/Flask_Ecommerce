@@ -1,0 +1,15 @@
+[Unit]
+Description=Ecommerce System
+After=network.target
+
+[Service]
+User=admin
+Group=admin
+WorkingDirectory=/home/admin/app/Flask_Ecommerce/
+Environment="PATH=//home/admin/app/Flask_Ecommerce/env/bin"
+EnvironmentFile=/home/admin/app/Flask_Ecommerce/.env
+ExecStart=/home/admin/app/Flask_Ecommerce/env/bin/gunicorn -w 3 rms:app --bind 0.0.0.0:8000
+
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+</head>
+<body>
+    <div class="add_product_container">
+        <div class="add_product_title">
+            Add Product
+        </div>
+        <form action="#" id="product_form" method="post">
+            <div class="product_detail">
+                <div class="input-box">
+                    <span class="details">Product Name</span>
+                    <input type="text" name="product_name[]" placeholder=" Product Name" required>
+                </div>
+                <div class="input-box">
+                    <span class="details">Product Description</span>
+                    <input type="text" name="product_description[]" placeholder=" Product Description" required>
+                </div>
+               
+                <div class="input-box">
+                    <span class="details">Product Category</span>
+                    <input type="n" name="product_category" id="product_category" placeholder=" Product Category" required>
+                </div>
+                <div class="input-box">
+                    <span class="details">Product Price</span>
+                    <input type="n" name="product_price" id="product_price" placeholder=" Product Price" required>
+                </div>
+                <div class="input-box">
+                    <span class="details">Product Summary </span>
+                    <input type="text" name="product_summary" id="product_summary" placeholder=" Product Summary" required>
+                </div>
+                </div>
+                <div class="file_inputs">
+                    <button type="button" class="add_file_button">Add an Image </button>
+                </div>
+                <div class="product_details">
+                    <div class="details_title">
+                        Product Details
+                    </div>
+                    <div class="details_inputs">
+
+                        <div class="input-box">
+                            <span class="details">Product Detail Title</span>
+                            <input type="text" name="product_detail_title[1]" placeholder=" Product Detail Title" required>
+                        </div>
+                        <div class="input-box">
+                            <span class="details">Product Detail Description</span>
+                            <input type="text" name="product_detail_description[1]" placeholder="Detail Description"  class="detail_description">
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" name="image_counter" id="image_counter" value="0">
+                <input type="hidden" name="detail_counter" id="detail_counter" value="1">
+
+                
+              
+            <div class="button">
+                <button type="button" id="add_product_button" class="btn_more_description">Add Product Details</button>
+                <input type="submit" value="Add Product">
+            </div>
+        </form>
+    </div>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif
+        }
+        body{
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            background: linear-gradient(135deg, #71b7e6, #9b59b6);
+        }
+        .add_product_container{
+            max-width: 700px;
+            width: 100%;
+            background: #fff;
+            padding: 25px 30px;
+            border-radius: 5px;
+        }
+        .add_product_title{
+            font-size: 25px;
+            font-weight: 500;
+            position: relative;
+        }
+        .add_product_title::before{
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 3px;
+            width: 30px;
+            border-radius: 5px;
+            background: linear-gradient(135deg, #71b7e6, #9b59b6);
+        }
+        .add_product_container form .product_detail{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin: 20px 0
+        }
+        .add_product_container form .product_detail .input-box{
+            margin-bottom: 15px;
+            width: calc(100% / 2 - 20px)
+        }
+        .add_product_container form .product_detail .input-box .details{
+            display: block;
+            font-weight: 500;
+            margin-bottom: 5px
+        }
+        .add_product_container form .product_detail .input-box input{
+            height: 45px;
+            width: 100%;
+            outline: none;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            padding-left: 15px;
+            font-size: 16px;
+            border-bottom-width: 2px;
+            transition: all 0.3s ease
+        }
+        /* .product_details{
+            display: flex;
+            background-color: aqua;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin: 20px 0
+        } */
+        form .button{
+            height: 45px;
+            margin: 45px 0;
+            justify-content: space-between;
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+        }
+        form .button input{
+            height: 100%;
+            width: 100%;
+            outline: none;
+            color: #fff;
+            border: none;
+            font-size: 18px;
+            font-weight: 500;
+            border-radius: 5px;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #71b7e6, #9b59b6);
+        }
+        form .button input:hover{
+            background: linear-gradient(135deg, #71b7e6, #9b59b6);
+        }
+        .product_details{
+            display: flex;
+            flex-direction: column;
+        }
+        .details_inputs{
+
+            display: flex;
+            flex-direction: row;
+        }
+        form .button .btn_more_description{
+            background: linear-gradient(135deg,  #9b59b6 ,#71b7e6);
+            color: #fff;
+            font-size: 18px;
+            font-weight: 500;
+            border-radius: 5px;
+            letter-spacing: 1px;
+            cursor: pointer;
+            padding: 2px;
+            margin-bottom: 15px;
+            justify-self: center;
+            align-self: center;
+            display: flex;
+           
+        }
+        .add_file_button{
+            background: linear-gradient(135deg,  #9b59b6 ,#71b7e6);
+            color: #fff;
+            font-size: 18px;
+            font-weight: 500;
+            border-radius: 5px;
+            letter-spacing: 1px;
+            cursor: pointer;
+            padding: 2px;
+            margin-bottom: 15px;
+            justify-self: center;
+            align-self: center;
+            display: flex;
+           
+        }
+        .file_inputs input{
+         
+            background: #e6b371;
+            border-radius: 20px;
+            padding: 8px;
+        }
+        /* .detail_description{
+            background-color: #8a0707;
+            width: fit-content;
+            
+            max-width: 250px;
+        } */
+        .details_inputs input{
+            border-radius: 5px;
+            font-size: 15px;
+            width: auto;
+            padding: 5px;
+        }
+    </style>
+    
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const addButton = document.getElementById("add_product_button");
+            const addFileButton = document.querySelector(".add_file_button");
+            const form = document.getElementById("product_form");
+            
+            
+            const productDetails = document.querySelector(".product_details");
+            const fileInputsContainer = document.querySelector(".file_inputs");
+
+            let count = 1;
+
+            addButton.addEventListener("click", function() {
+                count++;
+
+                const clonedProductDetails = productDetails.cloneNode(true);
+                const inputs = clonedProductDetails.querySelectorAll("input");
+                const detail_counter=document.getElementById("detail_counter");
+
+                inputs.forEach(input => {
+                    input.value = "";
+                    input.name = input.name.replace("[1]", `[${count}]`);
+                    input.id = `${input.name}_${count}`;
+                    detail_counter.value=count
+                });
+
+                form.insertBefore(clonedProductDetails, this.parentNode);
+            });
+                let count_image=1
+                const imageCounter = document.getElementById("image_counter"); // Corrected the function name here
+            addFileButton.addEventListener("click", function() {
+                const fileInput = document.createElement("input");
+                fileInput.type = "file";
+                fileInput.name = `product_file_${count_image}`;
+                fileInput.placeholder = "Upload Image";
+                fileInput.required = true;
+                fileInput.id = `product_file_${count_image}`;
+                image_counter.value=count_image
+                
+                fileInputsContainer.appendChild(fileInput);
+                count_image++
+            });
+        });
+    </script>
+</body>
+</html>

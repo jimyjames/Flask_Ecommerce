@@ -120,3 +120,12 @@ class Order(db.Model):
     quantity = db.Column(db.Integer)
     order_date = db.Column(db.Date, default=datetime.now().date())
     total_price = db.Column(db.Float)
+
+    def __repr__(self):
+        return f'Order("{self.id}","{self.customer}","{self.product_id}","{self.quantity}","{self.order_date}","{self.total_price}")'
+class Images(db.Model):
+    __tablename__ = "images"
+    id = db.Column(db.Integer, primary_key=True)
+    product_id = db.Column(db.Integer, db.ForeignKey("products.id"))
+    image = db.Column(db.String, nullable=False)
+    default = db.Column(db.Boolean, default=False)
